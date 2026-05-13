@@ -1,15 +1,16 @@
-name: bio_pipeline_env
+name: base
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - fastp=0.23.4
-  - fastqc=0.12.1
-  - spades=3.15.5
-  - bwa=0.7.17
-  - samtools=1.17
-  - bcftools=1.17
   - python=3.9
-  - pandas=2.0.0
-  - matplotlib=3.7.1
+  - fastp
+  - fastqc
+  - spades
+  - bwa
+  - samtools
+  - bcftools
+  - pandas
+  - matplotlib-base
+  - openjdk=11
