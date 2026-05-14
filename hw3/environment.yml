@@ -14,3 +14,4 @@ dependencies:
   - pandas
   - matplotlib-base
   - openjdk=11
+  - nextflow
