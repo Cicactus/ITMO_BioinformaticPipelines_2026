@@ -45,8 +45,7 @@ process FASTQC {
 
 process TRIMMING {
     tag "$sample_id"
-    publishDir "${params.outdir}/trimmed", mode: 'copy'
-
+    
     input:
     tuple val(sample_id), path(reads)
 
@@ -54,8 +53,9 @@ process TRIMMING {
     tuple val(sample_id), path("${sample_id}_R{1,2}_trim.fq")
 
     script:
+    def (r1, r2) = reads
     """
-    fastp -i ${reads[0]} -I ${reads[1]} \
+    fastp -i ${r1} -I ${r2} \
           -o ${sample_id}_R1_trim.fq -O ${sample_id}_R2_trim.fq \
           --html ${sample_id}_fastp.html
     """
