@@ -12,33 +12,29 @@ include { FASTQC as FASTQC_TRIM } from './modules/processes.nf'
 
 // WORKFLOW
 workflow {
-    read_ch = (params.reads ? Channel.fromFilePairs(params.reads, checkIfExists: true) : DOWNLOAD_SRA(params.sra_id)).first()
-    
-    // Raw QC
+    // Data
+    read_ch = params.reads ? 
+        Channel.fromFilePairs(params.reads, checkIfExists: true) : 
+        DOWNLOAD_SRA(params.sra_id)
+
+    // Quality Control
     FASTQC_RAW(read_ch, "raw")
 
     // Trimming
     TRIMMING(read_ch)
-
-    // Trimmed QC
     FASTQC_TRIM(TRIMMING.out, "trimmed")
 
-    // Assembly 
-    def ref_input_ch
+    // Assembly
     if (params.ref) {
-        ref_input_ch = Channel.fromPath(params.ref, checkIfExists: true)
+        ref_ch = Channel.fromPath(params.ref, checkIfExists: true).collect()
     } else {
         ASSEMBLY(TRIMMING.out)
-        ref_input_ch = ASSEMBLY.out.map { it[1] }
+        ref_ch = ASSEMBLY.out.map { it[1] }.collect()
     }
-    ref_ch = ref_input_ch.first()
-    index_ch = INDEX_REF(ref_ch)
 
-    // Mapping
+    // Downstream Analysis
     MAPPING(TRIMMING.out, ref_ch)
-
+    
     VARIANT_CALLING(MAPPING.out, ref_ch)
-
-    // Plotting
     PLOT_COVERAGE(MAPPING.out)
 }
