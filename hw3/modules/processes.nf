@@ -28,10 +28,11 @@ process DOWNLOAD_SRA {
 
 process FASTQC {
     tag "$sample_id"
-    publishDir "${params.outdir}/qc", mode: 'copy'
+    publishDir "${params.outdir}/qc/${subdir}", mode: 'copy'
 
     input:
     tuple val(sample_id), path(reads)
+    val subdir
 
     output:
     path "*.html"
