@@ -6,9 +6,10 @@ params.reads    = null        // --reads 'path/*_{1,2}.fastq' for local files
 params.ref      = null        // --ref 'path/to/ref.fa' for provided ref
 params.outdir   = "results"
 
-include { DOWNLOAD_SRA; TRIMMING; ASSEMBLY; INDEX_REF; MAPPING; PLOT_COVERAGE; VARIANT_CALLING } from './modules/processes.nf'
+include { DOWNLOAD_SRA; TRIMMING; ASSEMBLY; INDEX_REF; MAPPING; PLOT_COVERAGE } from './modules/processes.nf'
 include { FASTQC as FASTQC_RAW } from './modules/processes.nf'
 include { FASTQC as FASTQC_TRIM } from './modules/processes.nf'
+include { BCFTOOLS_MPILEUP } from './modules/bcftools/mpileup/main'
 
 // WORKFLOW
 workflow {
@@ -35,6 +36,17 @@ workflow {
     // Downstream Analysis
     MAPPING(TRIMMING.out, ref_ch)
     
-    VARIANT_CALLING(MAPPING.out, ref_ch)
+    // Variant Calling
+    mpileup_feed_ch = MAPPING.out.map { sample_id, bam, bai ->
+        return [ [id: sample_id], [bam, bai] ]
+    }
+
+    ref_feed_ch = ref_ch.map { fasta ->
+        return [ [id: fasta.baseName], fasta ]
+    }
+
+    BCFTOOLS_MPILEUP(mpileup_feed_ch, ref_feed_ch, false)
+
+    // Plotting the
     PLOT_COVERAGE(MAPPING.out)
 }
