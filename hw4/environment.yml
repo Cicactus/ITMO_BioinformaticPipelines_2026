@@ -1,0 +1,16 @@
+name: base
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - fastp
+  - fastqc
+  - spades
+  - bwa
+  - samtools
+  - bcftools
+  - pandas
+  - matplotlib-base
+  - openjdk=11
