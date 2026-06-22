@@ -1,0 +1,10 @@
+{
+    "salmon_version": "1.10.3",
+    "threads": "1",
+    "libType": "U",
+    "index": "index",
+    "mates1": "ggal_gut_1.fq",
+    "mates2": "ggal_gut_2.fq",
+    "output": "quant_ggal_gut",
+    "auxDir": "aux_info"
+}

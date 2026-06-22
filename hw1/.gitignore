@@ -1,0 +1,32 @@
+# --- Nextflow & Pipeline Metadata ---
+.nextflow*
+work/
+.ipynb_checkpoints/
+
+# --- Container & Build Artifacts ---
+# Ignore locally built images or temporary build files
+*.tar
+*.img
+*.sif
+
+# --- Bioinformatic Data (Do not upload!) ---
+# Never track raw reads or reference genomes
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.vcf
+*.vcf.gz
+*.fasta
+*.fai
+*.mpileup
+*.dict
+
+# --- System & IDE Files ---
+.DS_Store
+__pycache__/
+*.pyc
+.vscode/
+.idea/
