@@ -10,20 +10,13 @@ work/
 *.img
 *.sif
 
-# --- Bioinformatic Data (Do not upload!) ---
+# --- Bioinformatic Data  ---
 # Never track raw reads or reference genomes
 *.fastq
 *.fastq.gz
 *.fq
 *.fq.gz
-*.bam
-*.bai
-*.vcf
-*.vcf.gz
-*.fasta
-*.fai
-*.mpileup
-*.dict
+
 
 # --- System & IDE Files ---
 .DS_Store
