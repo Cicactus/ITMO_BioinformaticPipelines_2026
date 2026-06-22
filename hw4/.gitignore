@@ -2,6 +2,7 @@
 .nextflow*
 work/
 .ipynb_checkpoints/
+.gitignore
 
 # --- Container & Build Artifacts ---
 # Ignore locally built images or temporary build files
