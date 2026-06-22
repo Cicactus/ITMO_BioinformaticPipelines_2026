@@ -1,0 +1,12 @@
+FROM continuumio/miniconda3:latest
+
+RUN apt-get update && apt-get install -y procps && apt-get clean
+
+COPY environment.yml .
+
+RUN conda env update -n base -f environment.yml && \
+    conda clean --all --yes
+
+ENV PATH /opt/conda/bin:$PATH
+
+WORKDIR /data
